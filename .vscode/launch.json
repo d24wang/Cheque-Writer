@@ -1,0 +1,54 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Electron: Start Dev (Inspect 9229)",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev:debug",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Electron: Attach Main Process",
+            "type": "pwa-node",
+            "request": "attach",
+            "port": 9229,
+            "restart": true,
+            "timeout": 30000,
+            "cwd": "${workspaceFolder}",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "name": "Electron: Attach Renderer Process",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "webRoot": "${workspaceFolder}/src/renderer",
+            "sourceMapPathOverrides": {
+                "vite/src/*": "${workspaceFolder}/src/*",
+                "/@fs/*": "/*",
+                "/src/*": "${workspaceFolder}/src/*"
+            },
+            "timeout": 30000
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Electron: Dev + Attach Main",
+            "configurations": [
+                "Electron: Start Dev (Inspect 9229)",
+                "Electron: Attach Main Process"
+            ]
+        },
+        {
+            "name": "Electron: Dev + Attach All",
+            "configurations": [
+                "Electron: Start Dev (Inspect 9229)",
+                "Electron: Attach Main Process",
+                "Electron: Attach Renderer Process"
+            ]
+        }
+    ]
+}

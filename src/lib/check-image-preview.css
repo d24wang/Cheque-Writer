@@ -1,0 +1,52 @@
+.check-image-preview {
+    position: relative;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #f8fafc;
+}
+
+.check-image-preview__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.check-image-preview__overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.check-image-preview__field {
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.check-image-preview__text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: #111827;
+}
+
+@media print {
+    .check-image-preview {
+        border: none !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .check-image-preview__image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: fill;
+        visibility: var(--print-check-image-visibility, hidden);
+    }
+}
