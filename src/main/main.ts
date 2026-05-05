@@ -79,6 +79,7 @@ function createWindow(): void {
 
 type AppDb = Awaited<ReturnType<typeof db.createDb>>;
 let appDb: AppDb | null = null;
+let isClosingDb = false;
 
 app.whenReady().then(async () => {
     try {
@@ -86,9 +87,8 @@ app.whenReady().then(async () => {
         createWindow();
         buildApplicationMenu();
 
-        app.on('activate', async () => {
+        app.on('activate', () => {
             if (BrowserWindow.getAllWindows().length === 0) {
-                appDb = await db.createDb(getDBPath());
                 createWindow();
             }
         });
@@ -105,14 +105,15 @@ app.on('window-all-closed', () => {
 });
 
 app.on('will-quit', (event) => {
-    if (appDb == null) return;
+    if (appDb == null || isClosingDb) return;
+    isClosingDb = true;
     event.preventDefault();
     const closing = appDb;
     appDb = null;
     closing.close().catch((error) => {
         console.error('Error closing database:', error);
     }).finally(() => {
-        app.quit();
+        app.exit(0);
     });
 });
 
